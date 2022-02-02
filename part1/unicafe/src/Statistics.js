@@ -1,5 +1,14 @@
 const Statistics = (props) =>{
 
+  if(props.statisticsDict.good === 0 && props.statisticsDict.neutral === 0 && props.statisticsDict.bad === 0){
+    return (
+      <div>
+        <h2>Statistics</h2>
+        No feedback given
+      </div>
+    )
+  }
+
   const totalFeedback = props.statisticsDict.good + props.statisticsDict.bad + props.statisticsDict.neutral
   
   const averageFeedback = totalFeedback === 0 ? 0 :(props.statisticsDict.good - props.statisticsDict.bad) / totalFeedback
