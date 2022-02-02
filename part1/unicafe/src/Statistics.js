@@ -25,7 +25,7 @@ const Statistics = (props) =>{
         <StatisticsLine text = "Bad" value = {props.statisticsDict.bad} />
         <StatisticsLine text = "Total" value = {totalFeedback} />
         <StatisticsLine text = "Average" value = {averageFeedback} />
-        <StatisticsLine text = "Positive" value = {positiveFeedbackPercentage} />
+        <StatisticsLine text = "Positive" value = {positiveFeedbackPercentage}  />
     </div>
   )
 }
