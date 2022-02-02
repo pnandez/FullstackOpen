@@ -20,12 +20,14 @@ const Statistics = (props) =>{
   return (
     <div>
       <h2>Statistics</h2>
+      <table>
         <StatisticsLine text = "Good" value = {props.statisticsDict.good} />
         <StatisticsLine text = "Neutral" value = {props.statisticsDict.neutral} />
         <StatisticsLine text = "Bad" value = {props.statisticsDict.bad} />
         <StatisticsLine text = "Total" value = {totalFeedback} />
         <StatisticsLine text = "Average" value = {averageFeedback} />
         <StatisticsLine text = "Positive" value = {positiveFeedbackPercentage}  />
+      </table>
     </div>
   )
 }
