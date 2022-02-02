@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Button from './Button'
+import DisplayAnecdote from './DisplayAnecdote'
 
 const App = () => {
   const anecdotes = [
@@ -25,6 +26,8 @@ const App = () => {
     
   })
 
+  const [mostVoted, setMostVoted] = useState(0)
+
   const chooseNewAnecdote = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
   }
@@ -33,16 +36,20 @@ const App = () => {
     const copyOfPoints = {...points}
     copyOfPoints[selected] += 1
     setPoints(copyOfPoints)
+    updateMostVoted()
   } 
+
+  const updateMostVoted = () => {
+    const maxValue = Object.keys(points).reduce((a, b) => points[a] > points[b] ? a : b);
+    setMostVoted(maxValue)
+  }
 
   return (
     <div>
-      {anecdotes[selected]}
-      <br/>
-      has {points[selected]} votes
-      <br/>
+      <DisplayAnecdote title = "Anecdote of the day" anecdote = {anecdotes[selected]} points = {points[selected]} />
       <Button text = "Next anecdote" onClick={chooseNewAnecdote} />
       <Button text = "Vote anecdote" onClick={addVoteToAnecdote} />
+      <DisplayAnecdote title = "Anecdote with most votes" anecdote = {anecdotes[mostVoted]} points = {points[mostVoted]} />
     </div>
   )
 }
