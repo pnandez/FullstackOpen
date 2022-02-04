@@ -8,12 +8,18 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
 
+  const checkIfNewPersonExists = (newPerson) => {
+    return persons.some(person => person['name'] === newPerson['name'])
+  }
+
   const addNewNameToPhoneBook = (event) =>{
     event.preventDefault()
-    
+
     const newPerson = {
       name: newName
     }
+
+    checkIfNewPersonExists(newPerson) ? window.alert(`${newPerson['name']} already exists`) :
 
     setPersons(persons.concat(newPerson))
     setNewName("")
