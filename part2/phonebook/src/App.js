@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import DisplayPerson from './Components/DisplayPerson'
+import FilterPerson from './Components/FilterPerson'
+import NewPersonForm from './Components/NewPersonForm'
+import Persons from './Components/Persons'
 
 const App = () => {
 
@@ -55,26 +58,24 @@ const App = () => {
 
   const personsToShow = showAll ? persons : persons.filter(person => person['name'].includes(nameToSearch))
 
+  const inputs = {
+    name: newName,
+    handleName: handleNameChange,
+    phone: newPhone,
+    handlePhone: handlePhoneChange
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
-
-        <div>search for: <input value={nameToSearch} onChange={handleNameToSearchChange}/></div>
-
+        <FilterPerson filterInput={nameToSearch} handleFilterInput={handleNameToSearchChange} />
       <h2>Add new</h2>
-      <form onSubmit={addNewNameToPhoneBook}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div>number: <input value={newPhone} onChange={handlePhoneChange}/></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+
+      <NewPersonForm formOnSubmit={addNewNameToPhoneBook} inputs={inputs} />
+      
       <h2>Numbers</h2>
-      <div>
-        {personsToShow.map(person => <DisplayPerson key={person['name']} person={person} />)}
-      </div>
+      
+      <Persons personsToShow={personsToShow}/>
     </div>
   )
 }
