@@ -28,9 +28,6 @@ const App = () => {
   }
 
 
-  console.log(course["parts"][0])
-
-
   return <Course course={course} />
 }
 
