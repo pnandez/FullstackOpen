@@ -1,21 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DisplayPerson from './Components/DisplayPerson'
 import FilterPerson from './Components/FilterPerson'
 import NewPersonForm from './Components/NewPersonForm'
 import Persons from './Components/Persons'
+import axios from 'axios'
 
 const App = () => {
-
+  
   const [showAll, setShowAll] = useState(true)
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [nameToSearch, setNameToSearch] = useState('')
+
+  useEffect(() => {
+    const promise = axios.get("http://localhost:3001/persons")
+    promise.then(response => {
+      setPersons(response.data)
+    })
+  }, [])
 
   const checkIfNewPersonExists = (newPerson) => {
     return persons.some(person => person['name'] === newPerson['name'])
