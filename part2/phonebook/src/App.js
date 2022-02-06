@@ -5,6 +5,7 @@ import NewPersonForm from './Components/NewPersonForm'
 import Notification from './Components/Notification'
 import Persons from './Components/Persons'
 import phoneBook from './Services/PhoneBook'
+import Error from './Components/Error'
 
 const App = () => {
   
@@ -13,7 +14,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [nameToSearch, setNameToSearch] = useState('')
-  const [notificationmessage, setNotificationMessage]  = useState(null)
+  const [notificationMessage, setNotificationMessage]  = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     
@@ -38,7 +40,7 @@ const App = () => {
 
       phoneBook.create(newPerson).then(person =>{
         setPersons(persons.concat(person))
-        setNotificationMessage(`${newPerson.name} created succesfully!`)
+        setNotificationMessage(`${newPerson.name} added succesfully!`)
       setTimeout(() => setNotificationMessage(null), 5000)
       })
     } else if(window.confirm(`Edit ${newName}'s phone?`) ){
@@ -48,10 +50,14 @@ const App = () => {
         id: persons.find(person => person.name === newName).id
       }
       phoneBook.update(newPerson.id,newPerson)
-      setPersons(persons.map(person => person.id === newPerson.id? newPerson : person))
+      .then(newPerson=> {setPersons(persons.map(person => person.id === newPerson.id? newPerson : person))
       setNotificationMessage(`${newPerson.name} updated succesfully!`)
       setTimeout(() => setNotificationMessage(null), 5000)
     }
+    ).catch(error => {
+                    setErrorMessage(
+                        `${ newPerson.name } was already removed from server`,)
+      })}
       setNewName("")
       setNewPhone("")
     
@@ -92,7 +98,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationmessage} />
+      <Notification message={notificationMessage} />
+      <Error message={errorMessage} />
         <FilterPerson filterInput={nameToSearch} handleFilterInput={handleNameToSearchChange} />
       <h2>Add new</h2>
 
