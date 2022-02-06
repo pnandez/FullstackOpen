@@ -13,7 +13,7 @@ const Countries = (props) => {
     return (
       <div>
         <h2>Countries found</h2>
-        {props.countries.map(country => <Country key={country.cca2} country={country} />)}
+        {props.countries.map(country => <Country key={country.cca2} country={country} handleShowSpecificCountry={props.handleShowSpecificCountry} />)}
       </div>
     )
   }

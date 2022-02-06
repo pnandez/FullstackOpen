@@ -20,6 +20,8 @@ const App = (props) => {
   const handleCountryToSearchInput = (event) => {
     setCountryToSearch(event.target.value.toLowerCase())
   }
+
+  
   console.log(countriesToShow)
   return (
     <div>
@@ -27,7 +29,7 @@ const App = (props) => {
       <h2>Search for a country</h2>
       <SearchBar value={countryToSearch} handler={handleCountryToSearchInput} />
       debugger: {countryToSearch} length: {countriesToShow.length}
-      <Countries countries={countriesToShow} />
+      <Countries countries={countriesToShow} handleShowSpecificCountry={setCountryToSearch}/>
     </div>
 
   );
