@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import DisplayPerson from './Components/DisplayPerson'
+import './App.css'
 import FilterPerson from './Components/FilterPerson'
 import NewPersonForm from './Components/NewPersonForm'
+import Notification from './Components/Notification'
 import Persons from './Components/Persons'
 import phoneBook from './Services/PhoneBook'
 
@@ -12,6 +13,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [nameToSearch, setNameToSearch] = useState('')
+  const [notificationmessage, setNotificationMessage]  = useState(null)
 
   useEffect(() => {
     
@@ -27,20 +29,17 @@ const App = () => {
 
   const addNewNameToPhoneBook = (event) =>{
     event.preventDefault()
-
-
-
-
     if(!checkIfNewPersonExists(newName)){
       const newPerson = {
         name: newName,
         number: newPhone,
-        id: persons[persons.length].id +1
+        id: persons[persons.length-1].id +1
       }
 
       phoneBook.create(newPerson).then(person =>{
         setPersons(persons.concat(person))
-
+        setNotificationMessage(`${newPerson.name} created succesfully!`)
+      setTimeout(() => setNotificationMessage(null), 5000)
       })
     } else if(window.confirm(`Edit ${newName}'s phone?`) ){
       const newPerson = {
@@ -50,9 +49,11 @@ const App = () => {
       }
       phoneBook.update(newPerson.id,newPerson)
       setPersons(persons.map(person => person.id === newPerson.id? newPerson : person))
+      setNotificationMessage(`${newPerson.name} updated succesfully!`)
+      setTimeout(() => setNotificationMessage(null), 5000)
     }
-            setNewName("")
-        setNewPhone("")
+      setNewName("")
+      setNewPhone("")
     
   }
 
@@ -68,11 +69,6 @@ const App = () => {
   const handleNameToSearchChange = (event) => {
     setNameToSearch(event.target.value)
     event.target.value.length === 0 ? setShowAll(true) : setShowAll(false)
-  }
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault()
-    setNameToSearch("")
   }
 
   const personsToShow = showAll ? persons : persons.filter(person => person['name'].includes(nameToSearch))
@@ -96,6 +92,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationmessage} />
         <FilterPerson filterInput={nameToSearch} handleFilterInput={handleNameToSearchChange} />
       <h2>Add new</h2>
 
