@@ -1,9 +1,10 @@
 import React from "react";
+import Button from "./Button";
 
-const DisplayPerson = ({person}) =>{
+const DisplayPerson = (props) =>{
   return(
     <p>
-      {person['name']} {person['number']}
+      {props.person['name']} {props.person['number']} <Button text={"delete"} onClick={() => props.handleDelete(props.person.id)} />
     </p>
   )
 }

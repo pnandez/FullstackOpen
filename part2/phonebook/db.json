@@ -1,16 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
@@ -34,6 +24,16 @@
       "name": "Javi",
       "number": "22333",
       "id": 7
+    },
+    {
+      "name": "sdfsa",
+      "number": "12",
+      "id": 8
+    },
+    {
+      "name": "Capo",
+      "number": "1121",
+      "id": 9
     }
   ]
 }

@@ -31,7 +31,7 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newPhone,
-      id: persons.length +1
+      id: persons[persons.length].id +1
     }
 
 
@@ -66,6 +66,15 @@ const App = () => {
 
   const personsToShow = showAll ? persons : persons.filter(person => person['name'].includes(nameToSearch))
 
+  const handleDeletePerson = id =>{
+    const personToDelete = persons.find(person => person.id === id)
+    if(window.confirm(`Delete ${personToDelete.name}?`)){
+      phoneBook.deletePerson(id)
+      setPersons(persons.filter(person => person.id !== id ))
+    }
+    
+  }
+
   const inputs = {
     name: newName,
     handleName: handleNameChange,
@@ -82,7 +91,7 @@ const App = () => {
       <NewPersonForm formOnSubmit={addNewNameToPhoneBook} inputs={inputs} />
       
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow}/>
+      <Persons personsToShow={personsToShow} handleDelete={handleDeletePerson} />
     </div>
   )
 }
