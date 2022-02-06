@@ -3,7 +3,7 @@ import DisplayPerson from './Components/DisplayPerson'
 import FilterPerson from './Components/FilterPerson'
 import NewPersonForm from './Components/NewPersonForm'
 import Persons from './Components/Persons'
-import axios from 'axios'
+import phoneBook from './Services/PhoneBook'
 
 const App = () => {
   
@@ -14,9 +14,10 @@ const App = () => {
   const [nameToSearch, setNameToSearch] = useState('')
 
   useEffect(() => {
-    const promise = axios.get("http://localhost:3001/persons")
-    promise.then(response => {
-      setPersons(response.data)
+    
+    phoneBook.getAll()
+    .then(person => {
+      setPersons(person)
     })
   }, [])
 
@@ -36,9 +37,8 @@ const App = () => {
 
 
     checkIfNewPersonExists(newPerson) ? window.alert(`${newPerson['name']} already exists`) :
-    axios.post("http://localhost:3001/persons", newPerson)
-      .then(response =>{
-        setPersons(persons.concat(newPerson))
+    phoneBook.create(newPerson).then(person =>{
+       setPersons(persons.concat(person))
         setNewName("")
         setNewPhone("")
       })
