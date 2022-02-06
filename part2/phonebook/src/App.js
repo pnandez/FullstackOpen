@@ -21,27 +21,38 @@ const App = () => {
     })
   }, [])
 
-  const checkIfNewPersonExists = (newPerson) => {
-    return persons.some(person => person['name'] === newPerson['name'])
+  const checkIfNewPersonExists = (name) => {
+    return persons.some(person => person['name'] === name)
   }
 
   const addNewNameToPhoneBook = (event) =>{
     event.preventDefault()
 
-    const newPerson = {
-      name: newName,
-      number: newPhone,
-      id: persons[persons.length].id +1
-    }
 
 
 
-    checkIfNewPersonExists(newPerson) ? window.alert(`${newPerson['name']} already exists`) :
-    phoneBook.create(newPerson).then(person =>{
-       setPersons(persons.concat(person))
-        setNewName("")
-        setNewPhone("")
+    if(!checkIfNewPersonExists(newName)){
+      const newPerson = {
+        name: newName,
+        number: newPhone,
+        id: persons[persons.length].id +1
+      }
+
+      phoneBook.create(newPerson).then(person =>{
+        setPersons(persons.concat(person))
+
       })
+    } else if(window.confirm(`Edit ${newName}'s phone?`) ){
+      const newPerson = {
+        name: newName,
+        number: newPhone,
+        id: persons.find(person => person.name === newName).id
+      }
+      phoneBook.update(newPerson.id,newPerson)
+      setPersons(persons.map(person => person.id === newPerson.id? newPerson : person))
+    }
+            setNewName("")
+        setNewPhone("")
     
   }
 
