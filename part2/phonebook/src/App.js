@@ -29,15 +29,20 @@ const App = () => {
 
     const newPerson = {
       name: newName,
-      phone: newPhone,
+      number: newPhone,
       id: persons.length +1
     }
 
-    checkIfNewPersonExists(newPerson) ? window.alert(`${newPerson['name']} already exists`) :
 
-    setPersons(persons.concat(newPerson))
-    setNewName("")
-    setNewPhone("")
+
+    checkIfNewPersonExists(newPerson) ? window.alert(`${newPerson['name']} already exists`) :
+    axios.post("http://localhost:3001/persons", newPerson)
+      .then(response =>{
+        setPersons(persons.concat(newPerson))
+        setNewName("")
+        setNewPhone("")
+      })
+    
   }
 
   const handleNameChange = (event) => {
@@ -77,7 +82,6 @@ const App = () => {
       <NewPersonForm formOnSubmit={addNewNameToPhoneBook} inputs={inputs} />
       
       <h2>Numbers</h2>
-      
       <Persons personsToShow={personsToShow}/>
     </div>
   )

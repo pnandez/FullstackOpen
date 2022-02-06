@@ -12,7 +12,7 @@ const CountryInfo = (props) =>{
 
   const  api_key = process.env.REACT_APP_WEATHER_API_KEY
   useEffect(()=>{
-    axios.get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${props.country.name.common} `)
+    axios.get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${props.country.name.common}`)
       .then(response => setWeatherInfo( response.data))
   },[])
   console.log(weatherInfo)
