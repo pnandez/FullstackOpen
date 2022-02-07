@@ -13,7 +13,7 @@ const create = newObject => {
 }
 
 const update = (id,newObject) => {
-   const finalURL = baseURL + '/' + id
+  const finalURL = baseURL + '/' + id
   return axios.put(finalURL, newObject)
   .then(response => response.data)
 }
