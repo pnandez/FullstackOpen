@@ -1,7 +1,43 @@
 const { request, response } = require('express')
 const express = require('express')
 const app = express()
+
+
+const morgan = require('morgan')
+
 app.use(express.json())
+
+
+morgan.token('request-body', (req) => {
+    return JSON.stringify(req.body)
+})
+
+const requestLogger = (req, res, next) => {
+    console.log('--------------')
+    console.log('Method:', req.method)
+    console.log('Path:  ', req.path)
+    console.log('Body:  ', req.body)
+    next()
+}
+
+
+app.use(morgan(function (tokens, req, res) {
+    return [
+        tokens.method(req, res),
+        tokens.url(req, res),
+        tokens.status(req, res),
+        tokens.res(req, res, 'content-length'),
+        '-',
+        tokens['response-time'](req, res),
+        'ms',
+        tokens['request-body'](req, res),
+    ].join(' ').concat('\n--------------')
+
+}))
+
+
+
+
 
 let phonebook = [
     { 
