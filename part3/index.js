@@ -29,6 +29,22 @@ app.get('/persons', (request,response) => {
   response.json(phonebook)
 })
 
+app.get('/persons/:id', (request,response) => {
+  const id = Number(request.params.id)
+
+  const person = phonebook.find(person => person.id === id)
+
+  if(person){
+    response.json(person)
+  }else{
+    response.status(404).end()
+  }
+})
+
+app.get('/info', (request, response) => {
+  response.send(`<div> <p>Phonebook has info for ${phonebook.length} people</p> <p>${new Date()}</p> </div>`)
+})
+
 
 const PORT = 3001
 app.listen(PORT, () => {
