@@ -35,7 +35,6 @@ const App = () => {
       const newPerson = {
         name: newName,
         number: newPhone,
-        id: persons[persons.length-1].id +1
       }
 
       phoneBook.create(newPerson).then(person =>{

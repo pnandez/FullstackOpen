@@ -4,9 +4,10 @@ const app = express()
 
 
 const morgan = require('morgan')
+const cors = require('cors')
 
 app.use(express.json())
-
+app.use(cors())
 
 morgan.token('request-body', (req) => {
     return JSON.stringify(req.body)
@@ -109,7 +110,7 @@ app.post('/persons', (request,response) => {
 
   phonebook = phonebook.concat(person)
 
-  response.json(phonebook)
+  response.json(person)
 })
 
 const generateID = () =>{

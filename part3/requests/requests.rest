@@ -5,6 +5,10 @@ POST http://localhost:3001/persons/
 Content-Type: application/json
 
 {
-  "name": "Pablo",
+  "name": "Pol",
   "number": 1233
 }
+
+
+###
+GET http://localhost:3001/persons/
