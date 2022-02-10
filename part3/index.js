@@ -52,20 +52,19 @@ app.get('/persons', (request,response) => {
 })
 
 app.get('/persons/:id', (request,response) => {
-  Phonebook.findById(request.params.id).then(note => {
-    response.json(note)
-  })
-  .catch(error => next(error))
-  
+  Phonebook.findById(request.params.id)
+    .then(result => {
+      response.json(result)
+    })
+    .catch(error => next(error))
 })
 
-app.delete('/persons/:id', (request,response) => {
-  Note.findByIdAndRemove(request.params.id)
+app.delete('/persons/:id', (request,response, next) => {
+  Phonebook.findByIdAndRemove(request.params.id)
     .then(result => {
       response.status(204).end()
     })
     .catch(error => next(error))
-
 })
 
 app.post('/persons', (request,response) => {
@@ -77,29 +76,43 @@ app.post('/persons', (request,response) => {
     })
   }
 
- 
 
   /* if(Phonebook.findOne({"name": body.name})){
     return response.status(400).json({
       error: "Person already exists in phonebook"
     })
   } */
-  
+  console.log(body)
+
+  const person = new Phonebook({
+    "name": body.name,
+    "number": body.number,
+  })
+
+  person.save().then(savedPerson=>{
+    response.json(savedPerson)
+  })
+
+  response.json(person)
 })
 
+app.put('/persons/:id', (request,response, next) => {
+  const person = {
+    "name": request.body.name,
+    "number": request.body.number,
+  }
 
-const generateID = () =>{
-  let id = 0
-  do{
-    id =  Math.floor(Math.random()*200)
-  }while(phonebook.find(person => person.id ===id))
-  return id
-}
+  Phonebook.findByIdAndUpdate(request.params.id, person, { new: true })
+  .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
+})
+
 
 app.get('/info', (request, response) => {
   response.send(`<div> <p>Phonebook has info for ${phonebook.length} people</p> <p>${new Date()}</p> </div>`)
 })
-
 
 
 const unknownEndpoint = (request, response) => {
@@ -120,9 +133,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 
-
 const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
-
