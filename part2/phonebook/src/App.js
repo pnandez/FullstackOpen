@@ -95,7 +95,9 @@ const App = () => {
   }
 
   return (
+
     <div>
+      {console.log("Rendering")}
       <h2>Phonebook</h2>
       <Notification message={notificationMessage} />
       <Error message={errorMessage} />
