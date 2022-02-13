@@ -41,7 +41,11 @@ const App = () => {
         setPersons(persons.concat(person))
         setNotificationMessage(`${newPerson.name} added succesfully!`)
       setTimeout(() => setNotificationMessage(null), 5000)
-      })
+      }).catch(error => {
+        console.log("AAA")
+        console.log(error.response.data)
+        setErrorMessage(error.response.data.error.toString())
+      setTimeout(() => setErrorMessage(null), 5000)})
     } else if(window.confirm(`Edit ${newName}'s phone?`) ){
       const newPerson = {
         name: newName,

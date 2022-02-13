@@ -67,7 +67,7 @@ app.delete('/persons/:id', (request,response, next) => {
     .catch(error => next(error))
 })
 
-app.post('/persons', (request,response) => {
+app.post('/persons', (request,response,next) => {
   const body= request.body
 
   if(!body.name || !body.number){
@@ -75,13 +75,6 @@ app.post('/persons', (request,response) => {
       error: "Name or number missing"
     })
   }
-
-
-  /* if(Phonebook.findOne({"name": body.name})){
-    return response.status(400).json({
-      error: "Person already exists in phonebook"
-    })
-  } */
   console.log(body)
 
   const person = new Phonebook({
@@ -92,8 +85,7 @@ app.post('/persons', (request,response) => {
   person.save().then(savedPerson=>{
     response.json(savedPerson)
   })
-
-  response.json(person)
+    .catch(error => next(error))
 })
 
 app.put('/persons/:id', (request,response, next) => {
@@ -126,8 +118,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
-
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
   next(error)
 }
 
