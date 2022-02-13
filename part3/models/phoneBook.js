@@ -11,13 +11,43 @@ mongoose.connect(url)
     console.log("Could not connect ", error)
   })
 
+const phoneNumberValidator = (num) =>{
+  if(!num.includes("-")){
+    return num.length < 8
+  }else{
+    console.log("AAA");
+  const splittedString = num.split("-")
+  return !isNaN(splittedString[0]) &&
+          !isNaN(splittedString[1]) &&
+          splittedString[0].length >=2 &&
+          splittedString[0].length <=3
+}}
+
 const phoneBookSchema = new mongoose.Schema({
   "name": {
     type: String,
     minlength: 5,
     required: true
   },
-  "number": String,
+  "number": {
+    type: String,
+    required: true,
+    validate: (num) =>{
+              console.log("ASDASDDF");
+              if(!num.includes("-")){
+                console.log("if")
+                return num.length > 8
+              }else{
+                console.log("AAA");
+              const splittedString = num.split("-")
+              return !isNaN(splittedString[0]) &&
+                      !isNaN(splittedString[1]) &&
+                      splittedString[0].length >=2 &&
+                      splittedString[0].length <=3
+            }},
+    message: "Phone number not accepted"
+
+  },
   "id": Number,
 })
 
