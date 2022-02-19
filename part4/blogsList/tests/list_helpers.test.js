@@ -120,3 +120,52 @@ describe('favourite', () => {
     const result = list_helpers.favourite(blogs)
     expect(result).toEqual(expectedResult)})
 })
+
+describe('mostWritten', () => {
+  test('when empty list is null', () => {
+    const result = list_helpers.mostBlogger(emptyBlogsList)
+    expect(result).toEqual(null)
+  })
+
+  test('when list has one blog, equals that auhtors info', () =>{
+    const expectedResult = {
+      author: 'Edsger W. Dijkstra',
+      blogsNumber: 1
+    }
+    const result = list_helpers.mostBlogger(listWithOneBlog)
+    expect(result).toEqual(expectedResult)
+  })
+
+  test('of bigger list is calculated right', () => {
+    const expectedResult = {
+      author: "Robert C. Martin",
+      blogsNumber: 3
+    }
+    const result = list_helpers.mostBlogger(blogs)
+    expect(result).toEqual(expectedResult)})
+})
+
+
+describe('bestAuthor', () => {
+  test('when empty list is null', () => {
+    const result = list_helpers.topAuhtorBlogger(emptyBlogsList)
+    expect(result).toEqual(null)
+  })
+
+  test('when list has one blog, equals that auhtors info', () =>{
+    const expectedResult = {
+      author: 'Edsger W. Dijkstra',
+      likes: 5,
+    }
+    const result = list_helpers.topAuhtorBlogger(listWithOneBlog)
+    expect(result).toEqual(expectedResult)
+  })
+
+  test('of bigger list is calculated right', () => {
+    const expectedResult = {
+      author: "Edsger W. Dijkstra",
+      likes: 17
+    }
+    const result = list_helpers.topAuhtorBlogger(blogs)
+    expect(result).toEqual(expectedResult)})
+})
