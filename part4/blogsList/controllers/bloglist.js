@@ -45,6 +45,37 @@ BlogRouter.post('/', async (request, response) => {
 
 })
 
+BlogRouter.delete('/:id', async (request, response) => {
+  try {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+BlogRouter.put("/:id", async (request, response) => {
+  const receivedBlog = request.body
+  console.log("asdfjksdflasjklf")
+  console.log(receivedBlog)
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, receivedBlog, { new: true })
+    response.json(updatedBlog)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+BlogRouter.get("/:id", async (request, response) => {
+
+  try {
+    const foundBlog = await Blog.findById(request.params.id)
+    console.log(foundBlog)
+    response.json(foundBlog)
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 
 

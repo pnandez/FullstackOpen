@@ -80,6 +80,38 @@ test('not accept blogs with no title or url', async () => {
     .expect(400)
 })
 
+
+// test('delete blog', async () => {
+//   const initialBlogs = await api.get("/api/blogs").expect(200)
+
+//   const idToRemove = initialBlogs.body[0].id
+//   await api
+//     .delete(`/api/blogs/${idToRemove}`)
+//     .expect(204)
+
+//   const finalBlogs = await api.get("/api/blogs").expect(200)
+//   expect(finalBlogs.body.length).toBe(initialBlogs.body.length - 1)
+// })
+
+test("update blog", async () => {
+  const initialBlogs = await api.get("/api/blogs/62d522e5584f3368a1af43a9").expect(200)
+
+  const initialBlog = initialBlogs.body
+  const idToUpdate = "62d522e5584f3368a1af43a9"
+
+  console.log(`INIITAAAL ${JSON.stringify(initialBlog)}`)
+
+  const updatedBlog = { ...initialBlog, likes: initialBlog.likes + 1 }
+
+  const responseBlog = await api
+    .put(`/api/blogs/${idToUpdate}`)
+    .send(updatedBlog)
+
+  console.log(responseBlog.body)
+  expect(responseBlog.body.likes).toBe(initialBlog.likes + 1)
+
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
